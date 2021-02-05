@@ -8,8 +8,9 @@
 <body>
 
     <div class="flex-container">
-        <div>
-            <img src="/greenbag/001-0004769377/true" />
+        <div id="markupContainer">
+            <!-- Show the image - but without the markup on the image itself -->
+            <img src="/greenbag/001-0004769377/true"/>
         </div>
         <div>
             Instructions:
@@ -28,9 +29,26 @@
     
 <script>
 
+    (async function() {
+        var response = await fetch('/GreenBag/Markup/001-0004769377',
+            {
+                method: 'GET'
+            });
 
-    // Insert code here
+        var markup = await response.json();
+        
+        // Change code here ...
+        var obj = $('<div id="test"/>');
+        obj.css({
+            left: markup[0].x + 'px',
+            top: markup[0].y + 'px',
+            width: markup[0].width + 'px',
+            height: markup[0].height + 'px'
+        });
+        obj.addClass('object');
+        $('#markupContainer').append(obj);
 
+    })();
 
 </script>
 
@@ -44,9 +62,15 @@
                 padding: 10px;
             }
 
+        #markupContainer {
+            position: relative;
+        }
+
         .object {
             border-width: 2px;
             border-style: solid;
+            position: absolute;
+            background-color: yellow;
         }
 
         .belt {
