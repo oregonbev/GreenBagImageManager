@@ -94,7 +94,7 @@ namespace GreenBagImageManager2.Controllers
         {
             BlobContainerClient container = new BlobContainerClient(settings.BlobStorage, "greenbagimage");
             BlobClient blob = container.GetBlobClient(tagNumber + ".jpg");
-            
+
             var props = await blob.GetPropertiesAsync();
             string markup = null;
             if (!props.Value?.Metadata?.TryGetValue("markup", out markup) ?? false)
@@ -109,9 +109,19 @@ namespace GreenBagImageManager2.Controllers
              *
              */
 
-            
+
             // TODO - break apart the "markup" string and parse each entry into a "DetectedObject".  Beware that some parsed objects are null - those should be excluded
             var objects = new List<DetectedObject>();
+
+            objects.Add(new DetectedObject()
+            {
+                Class = "belt",
+                X = 1225,
+                Y = 391,
+                Width = 53,
+                Height = 306,
+                IsCounted = false
+            });
 
             return objects;
         }
